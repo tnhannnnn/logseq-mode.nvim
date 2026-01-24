@@ -15,7 +15,7 @@ It provides:
 
 ```lua
 {
-  "dir", -- Replace with git url if you push this, e.g. "username/logseq-mode.nvim"
+  "Conor-McLeod/logseq-mode.nvim", 
   dir = "/path/to/logseq-mode.nvim", -- If local
   dependencies = {
     "stevearc/conform.nvim", -- Optional, for formatting
