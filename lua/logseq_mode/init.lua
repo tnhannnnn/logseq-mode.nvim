@@ -93,9 +93,20 @@ function M.setup(opts)
 	-- FileType Autocommand
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = "markdown",
-		callback = function()
-			local bufname = vim.api.nvim_buf_get_name(0)
-			if bufname:find(Config.options.logseq_dir, 1, true) then
+		callback = function(ev)
+			-- Don't run on special buffers (nofile, prompt, etc.)
+			if not vim.api.nvim_buf_is_valid(ev.buf) or vim.bo[ev.buf].buftype ~= "" then
+				return
+			end
+
+			local bufname = ev.file
+			local logseq_dir = Config.options.logseq_dir
+
+			if not logseq_dir or type(logseq_dir) ~= "string" or not bufname or bufname == "" then
+				return
+			end
+
+			if bufname:find(logseq_dir, 1, true) then
 				-- Set local options
 				vim.opt_local.foldmethod = "indent"
 				vim.opt_local.shiftwidth = 0 -- Use tabstop
@@ -108,10 +119,10 @@ function M.setup(opts)
 
 				-- Keymaps
 				local map = function(mode, lhs, rhs, desc)
-					vim.keymap.set(mode, lhs, rhs, { buffer = true, desc = desc, silent = true })
+					vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, desc = desc, silent = true })
 				end
 				local map_expr = function(mode, lhs, rhs, desc)
-					vim.keymap.set(mode, lhs, rhs, { buffer = true, desc = desc, expr = true, silent = true })
+					vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, desc = desc, expr = true, silent = true })
 				end
 
 				-- Smart Indent/Unindent
@@ -155,6 +166,36 @@ function M.setup(opts)
 
 				-- Hoisting
 				map("n", "<leader>zl", M.hoist_block, "Logseq Hoist Block")
+			end
+		end,
+	})
+
+	-- Dynamic Line Spacing (GUI only)
+	M.default_linespace = vim.opt.linespace:get() or 0
+	vim.api.nvim_create_autocmd("BufEnter", {
+		callback = function(ev)
+			-- Don't run on special buffers
+			if not vim.api.nvim_buf_is_valid(ev.buf) or vim.bo[ev.buf].buftype ~= "" then
+				return
+			end
+
+			local bufname = ev.file
+			local logseq_dir = Config.options.logseq_dir
+
+			if not logseq_dir or type(logseq_dir) ~= "string" or not bufname or bufname == "" then
+				return
+			end
+
+			-- Check if current buffer is in logseq dir
+			if bufname:find(logseq_dir, 1, true) then
+				if Config.options.linespace and Config.options.linespace > 0 then
+					vim.opt.linespace = Config.options.linespace
+				end
+			else
+				-- Restore default
+				if M.default_linespace then
+					vim.opt.linespace = M.default_linespace
+				end
 			end
 		end,
 	})
