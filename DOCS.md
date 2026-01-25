@@ -29,7 +29,7 @@ Quickly access your daily notes.
 
 ### 5. Unified Search
 Search across your "Second Brain."
-- If configured, searches both your Logseq graph and an external Obsidian vault simultaneously.
+- If configured, searches both your Logseq graph and any additional directories simultaneously.
 - *Requires `snacks.nvim`.*
 
 ### 6. Hoisting (Zoom/Focus)
@@ -68,8 +68,8 @@ require("logseq_mode").setup({
   -- Path to your Logseq graph (Required)
   logseq_dir = "~/logseq-graph",
   
-  -- Path to an Obsidian vault (Optional, for unified search)
-  obsidian_dir = "~/main-vault",
+  -- List of additional directories to include in unified search (Optional)
+  additional_dirs = { "~/main-vault" },
   
   -- Extra line spacing for GUI clients (e.g., Neovide)
   -- Default: 4
@@ -107,7 +107,7 @@ require("logseq_mode").daily_note()
 ```
 
 #### `unified_search()`
-Triggers a grep picker searching both `logseq_dir` and `obsidian_dir`.
+Triggers a grep picker searching both `logseq_dir` and `additional_dirs`.
 *Requires `snacks.nvim` installed.*
 ```lua
 require("logseq_mode").unified_search()

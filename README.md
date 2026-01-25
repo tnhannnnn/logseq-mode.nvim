@@ -23,7 +23,7 @@ It provides:
   },
   opts = {
     logseq_dir = "~/logseq-graph", -- Path to your graph
-    obsidian_dir = "~/main-vault", -- Optional, for unified search
+    additional_dirs = { "~/main-vault" }, -- Optional, for unified search
   },
   config = function(_, opts)
     require("logseq_mode").setup(opts)
@@ -74,6 +74,6 @@ local logseq = require("logseq_mode")
 -- Open today's journal
 logseq.daily_note() 
 
--- Search across Logseq + Obsidian (requires snacks.nvim)
+-- Search across Logseq + other directories (requires snacks.nvim)
 logseq.unified_search()
 ```

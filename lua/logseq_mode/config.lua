@@ -2,8 +2,8 @@ local M = {}
 
 M.defaults = {
 	logseq_dir = vim.fn.expand("~/logseq-graph"),
-	-- Optional: Used for unified search if you have an obsidian vault too
-	obsidian_dir = vim.fn.expand("~/main-vault"),
+	-- Optional: List of additional directories to include in unified search
+	additional_dirs = {},
 	-- Amount of extra space between lines (only works in GUI clients)
 	linespace = 4,
 }
@@ -16,10 +16,13 @@ function M.setup(opts)
 	if M.options.logseq_dir then
 		M.options.logseq_dir = vim.fn.expand(M.options.logseq_dir)
 	end
-	if M.options.obsidian_dir then
-		M.options.obsidian_dir = vim.fn.expand(M.options.obsidian_dir)
+	if M.options.additional_dirs then
+		local expanded = {}
+		for _, dir in ipairs(M.options.additional_dirs) do
+			table.insert(expanded, vim.fn.expand(dir))
+		end
+		M.options.additional_dirs = expanded
 	end
 end
 
 return M
-

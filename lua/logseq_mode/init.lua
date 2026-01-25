@@ -63,9 +63,16 @@ function M.unified_search()
 		return
 	end
 
+	local dirs = { Config.options.logseq_dir }
+	if Config.options.additional_dirs then
+		for _, dir in ipairs(Config.options.additional_dirs) do
+			table.insert(dirs, dir)
+		end
+	end
+
 	snacks.picker.grep({
-		dirs = { Config.options.logseq_dir, Config.options.obsidian_dir },
-		title = "Unified Search (Logseq + Obsidian)",
+		dirs = dirs,
+		title = "Unified Search",
 	})
 end
 
