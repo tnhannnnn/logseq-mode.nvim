@@ -1,6 +1,7 @@
 local Config = require("logseq_mode.config")
 local Formatter = require("logseq_mode.formatter")
 local Wiki = require("logseq_mode.wiki")
+local References = require("logseq_mode.references")
 local M = {}
 
 -- Helper to indent/unindent a tree
@@ -174,6 +175,7 @@ function M.setup(opts)
 				-- Hoisting
 				map("n", "<leader>zl", M.hoist_block, "Logseq Hoist Block")
 
+				-- Wiki link navigation
 				map("n", "gf", function()
 					Wiki.follow_wikilink(logseq_dir, "edit")
 				end, "Follow wiki link")
@@ -181,6 +183,11 @@ function M.setup(opts)
 				map("n", "<C-w>f", function()
 					Wiki.follow_wikilink(logseq_dir, "vsplit")
 				end, "Follow wiki link (vsplit)")
+
+				-- [2] References panel toggle
+				map("n", "<leader>rl", function()
+					References.toggle_references()
+				end, "Toggle Logseq references panel")
 			end
 		end,
 	})
@@ -206,6 +213,9 @@ function M.setup(opts)
 				if Config.options.linespace and Config.options.linespace > 0 then
 					vim.opt.linespace = Config.options.linespace
 				end
+
+				-- [3] Refresh reference count badge on every buffer enter
+				References.refresh_badge(logseq_dir)
 			else
 				-- Restore default
 				if M.default_linespace then

@@ -52,10 +52,10 @@ function M.follow_wikilink(vault_dir, open_cmd)
 	else
 		-- Page does not exist → ask whether to create it
 		vim.ui.select({ "Yes", "No" }, {
-			prompt = string.format('Page "%s" is not existed. Create new?', link),
+			prompt = string.format('Page "%s" does not exist. Create new?', link),
 		}, function(choice)
 			if choice == "Yes" then
-				local new_path = vault_dir .. "/" .. link .. ".md"
+				local new_path = vault_dir .. "pages/" .. link .. ".md"
 				vim.cmd(open_cmd .. " " .. vim.fn.fnameescape(new_path))
 			end
 		end)

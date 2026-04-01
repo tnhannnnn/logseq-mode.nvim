@@ -9,7 +9,7 @@ It provides:
 - **Daily Note Access**: `:LogseqDaily` or Lua API.
 - **Hoisting**: Focus on the current block (`<leader>zl`).
 - **Follow wiki link**: `gf` / `<C-w>f` to follow wiki links, will prompt to create page if not found. Requires `ripgrep`, inspired by [obsidian.nvim](https://github.com/obsidian-nvim/obsidian.nvim).
-
+- **References list**: `<leader>rl` to show refs to present page as a bottom panel. 
 ## Installation
 
 ### using [lazy.nvim](https://github.com/folke/lazy.nvim)
@@ -71,6 +71,8 @@ The plugin automatically sets buffer-local keymaps for Markdown files inside you
 | `<leader>zl` | Hoist block (Focus) |
 | `gf`          | Follow wiki link (same window) |
 | `<C-w>f`      | Follow wiki link (vertical split) |
+| `<leader>dl`  | Open refs panel (bottom split)     |
+| `q` (Inside refs panel)| Close refs panel |
 ### API
 
 ```lua
