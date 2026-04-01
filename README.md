@@ -8,6 +8,7 @@ It provides:
 - **Strict Formatting**: An `awk`-based formatter (via `conform.nvim`) that cleans up `collapsed::true` and enforces hierarchy/indentation levels compatible with Logseq.
 - **Daily Note Access**: `:LogseqDaily` or Lua API.
 - **Hoisting**: Focus on the current block (`<leader>zl`).
+- **Follow wiki link**: `gf` / `<C-w>f` to follow wiki links, will prompt to create page if not found. Requires `ripgrep`, inspired by [obsidian.nvim](https://github.com/obsidian-nvim/obsidian.nvim).
 
 ## Installation
 
@@ -15,19 +16,22 @@ It provides:
 
 ```lua
 {
-  "Conor-McLeod/logseq-mode.nvim", 
-  dir = "/path/to/logseq-mode.nvim", -- If local
+  "tnhannnnn/logseq-mode.nvim",
+  -- "Conor-McLeod/logseq-mode.nvim", original repo
+  --  dir = "/path/to/logseq-mode.nvim", -- for local development
   dependencies = {
     "stevearc/conform.nvim", -- Optional, for formatting
     "folke/snacks.nvim",     -- Optional, for grep picker
   },
+  main = "logseq_mode",
   opts = {
     logseq_dir = "~/logseq-graph", -- Path to your graph
     additional_dirs = { "~/main-vault" }, -- Optional, for unified search
   },
-  config = function(_, opts)
-    require("logseq_mode").setup(opts)
-  end,
+  -- config = function(_, opts)
+  --   require("logseq_mode").setup(opts)
+  -- end,
+  -- Use this instead of `opts` if you need full control over setup
 }
 ```
 
@@ -65,7 +69,8 @@ The plugin automatically sets buffer-local keymaps for Markdown files inside you
 | `<CR>` (Insert) | Continue list (auto-bullet) |
 | `o` / `O` | New line with bullet |
 | `<leader>zl` | Hoist block (Focus) |
-
+| `gf`          | Follow wiki link (same window) |
+| `<C-w>f`      | Follow wiki link (vertical split) |
 ### API
 
 ```lua
@@ -77,3 +82,8 @@ logseq.daily_note()
 -- Search across Logseq + other directories (requires snacks.nvim)
 logseq.unified_search()
 ```
+## Credits
+
+This plugin is a fork of [logseq-mode.nvim](https://github.com/Conor-McLeod/logseq-mode.nvim)
+by [@Conor-McLeod](https://github.com/Conor-McLeod), which provides the core Logseq editing
+experience for Neovim. This fork extends the original with wiki link navigation powered by ripgrep.
