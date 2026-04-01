@@ -1,6 +1,6 @@
 local Config = require("logseq_mode.config")
 local Formatter = require("logseq_mode.formatter")
-
+local Wiki = require("logseq_mode.wiki")
 local M = {}
 
 -- Helper to indent/unindent a tree
@@ -173,6 +173,14 @@ function M.setup(opts)
 
 				-- Hoisting
 				map("n", "<leader>zl", M.hoist_block, "Logseq Hoist Block")
+
+				map("n", "gf", function()
+					Wiki.follow_wikilink(logseq_dir, "edit")
+				end, "Follow wiki link")
+
+				map("n", "<C-w>f", function()
+					Wiki.follow_wikilink(logseq_dir, "vsplit")
+				end, "Follow wiki link (vsplit)")
 			end
 		end,
 	})
@@ -209,4 +217,3 @@ function M.setup(opts)
 end
 
 return M
-
